@@ -1,5 +1,6 @@
 <?php
 
+require 'config.php';
 require 'DefindPath.php';
 
 $defindPath = new MVC\DefindPath();
