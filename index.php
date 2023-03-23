@@ -1,9 +1,9 @@
 <?php
 
 require 'config.php';
-require 'DefindPath.php';
+require 'Core/Controller.php';
 
-$defindPath = new MVC\DefindPath();
+$controller = new MVC\Core\Controller();
 
 error_reporting(E_ALL & ~E_NOTICE); // ALL EXCEPT NOTICES
 ini_set("log_errors", 1); // SAVE ERROR TO LOG FILE
