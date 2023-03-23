@@ -1,21 +1,39 @@
 <?php
 namespace MVC\Core;
+
 class Controller {
-    public function __construct()
+
+    // get view file by $filePath
+    public function View()
     {
-        var_dump($this->UrlProcess());
-    }
-    public function View($filePath)
-    {
+        $urlProcess = $this->UrlProcess();
+        $file = $pageUrl[count($filePath) - 1];
+        $viewPath = VIEW_PATH;
+        if (count($urlProcess) === 1 && $urlProcess[0] === 'MVC') {
+            return SITE_URL . 'index.php';
+        } else {
+            //remove first element and second element in urlProcess
+            unset($urlProcess[0]);
+        }
+        
+        //set file path by url
+        if ($urlProcess[0] == 'admin') {
+            unset($urlProcess[0]);
+            $viewPath .= 'Admin' . explode($urlProcess2);
+        } else {
+            $viewPath .= 'frontend' . explode($urlProcess2);
+        }
+
         $notfoundPage = SITE_URL . 'page/404.php';
-        $file = $filePath . '.php';
+        $file = $viewPath . '.php';
         $viewPage = file_exists($file) ? $file : $notfoundPage;
-        require $viewPage;
+        return $viewPage;
     }
 
-    public function Controller($filePath)
+    // get model file
+    public function Model($model)
     {
-        # code...
+        return MODEL_PATH . $model . '.php';
     }
 
     function UrlProcess() {
