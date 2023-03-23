@@ -7,6 +7,7 @@
 </head>
 <body>
 	<?php require './templates/header.php'; ?>
+	aa
 	<?php require './templates/footer.php'; ?>
 </body>
 </html>
