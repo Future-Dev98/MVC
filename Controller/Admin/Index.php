@@ -4,6 +4,6 @@ namespace MVC\Controller\Admin;
 class Index extends App {
     public function __construct()
     {
-        require $this->View();
+        require_once $this->View();
     }
 }

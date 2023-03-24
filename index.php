@@ -1,11 +1,13 @@
 <?php
 
-require 'config.php';
-require 'Core/App.php';
+require_once 'config.php';
+require_once 'Core/App.php';
 
 $app = new MVC\Core\App();
 
-require $app->Controller();
+require_once $app->Controller();
+
+$app->ControllerClass();
 
 error_reporting(E_ALL & ~E_NOTICE); // ALL EXCEPT NOTICES
 ini_set("log_errors", 1); // SAVE ERROR TO LOG FILE

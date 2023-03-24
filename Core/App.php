@@ -39,7 +39,7 @@ class App {
             }
         }
         $notfoundPage = SITE_URL . '/page/404.php';
-        $filePath = explode('/',$urlProcess) . '.php';
+        $filePath = implode('/',$urlProcess) . '.php';
         $viewPage = file_exists($filePath) ? $filePath : $notfoundPage;
         return $viewPage;
     }
@@ -80,10 +80,17 @@ class App {
             }
         }
         //$notfoundPage = SITE_URL . 'page/404.php';
-        $filePath = explode('/',$urlProcess) . '.php';
+        $filePath = implode('/',$urlProcess) . '.php';
         return $filePath;
     }
 
+    //get controller class
+    public function ControllerClass()
+    {
+        $filePathProcess = explode('/', $this->Controller());
+        $file = $filePathProcess[count($filePathProcess) - 1];
+        return str_replace('.php', '',  $file);
+    }
     //get model file
     public function Model($model)
     {

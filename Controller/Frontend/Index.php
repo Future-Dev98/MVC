@@ -1,10 +1,11 @@
 <?php
 namespace MVC\Controller\Frontend;
 
-class Index extends MVC\Core\App {
+use MVC\Core\App;
+
+class Index extends App {
     public function __construct()
     {
-        require $this->View();
+        require_once $this->View();
     }
 }
-
