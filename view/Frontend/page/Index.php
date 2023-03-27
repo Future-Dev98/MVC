@@ -6,8 +6,8 @@
 	<title>MVC</title>
 </head>
 <body>
-	<?php require_once './templates/header.php'; ?>
+	<?php require_once SITE_URL . '/templates/header.php'; ?>
 	aaaa
-	<?php require_once './templates/footer.php'; ?>
+	<?php require_once SITE_URL . '/templates/footer.php'; ?>
 </body>
 </html>

@@ -1,11 +1,11 @@
 <?php
-namespace MVC\Controller\Frontend;
+namespace Controller\Frontend;
 
-use MVC\Core\App;
+use Core\App;
 
 class Index extends App {
     public function __construct()
     {
-        require_once $this->View();
+        echo 'aa';die();
     }
 }

@@ -1,7 +1,7 @@
 DirectoryIndex index.php
 RewriteEngine on
-RewriteBase /MVC/
+RewriteBase /pt2/giangnq/
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+)$ index.php?cmd=$1  [QSA,L]
+RewriteRule ^(.+)$ /pt2/giangnq/index.php?cmd=$1  [QSA,L]
