@@ -6,8 +6,8 @@
 	<title>Not Found</title>
 </head>
 <body>
-	<?php require './templates/header.php'; ?>
+	<?php require FRONTEND_PATH . '/templates/header.php'; ?>
     <main id="site-main">404</main>
-	<?php require './templates/footer.php'; ?>
+	<?php require FRONTEND_PATH . '/templates/footer.php'; ?>
 </body>
 </html>

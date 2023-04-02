@@ -14,12 +14,9 @@ class Post implements PostInterface {
      */
     protected $database;
 
-    /**
-     * @param Database $database
-     */
-    public function __construct(Database $database)
+    public function __construct()
     {
-        $this->database = $database;
+        $this->database = new Database();
     }
 
     /**
@@ -30,14 +27,13 @@ class Post implements PostInterface {
     public function getPosts()
     {
         $conn = $this->database->ConnectDB();
-
         // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
         $sql = 'SELECT * FROM posts';
-        $result = $sql->result($conn);
+        $result = $conn->query($sql);
         $rows = [];
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
@@ -64,7 +60,7 @@ class Post implements PostInterface {
         }
 
         $sql = 'SELECT * FROM posts JOIN category_posts ON posts.entity_id = category_posts.entity_id WHERE category_id = '.$categoryId.'';
-        $result = $sql->result($conn);
+        $result = $conn->query($sql);
         $rows = [];
         if ($result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
@@ -73,6 +69,17 @@ class Post implements PostInterface {
         }
 
         return $rows;
+    }
+
+    /**
+     * get ID
+     *
+     * @param array $arr
+     * @return int
+     */
+    public function getID($arr)
+    {
+        return $arr['entity_id'];
     }
 
     /**
@@ -139,5 +146,16 @@ class Post implements PostInterface {
     public function getCreateAt($arr)
     {
         return $arr['create_at'];
+    }
+
+    /**
+     * get update at time
+     *
+     * @param array $arr
+     * @return date
+     */
+    public function getUpdateAt($arr)
+    {
+        return $arr['update_at'];
     }
 }

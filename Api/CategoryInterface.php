@@ -2,6 +2,15 @@
 namespace Api;
 
 interface CategoryInterface {
+
+    /**
+     * get ID
+     *
+     * @param array $arr
+     * @return int
+     */
+    public function getID($arr);
+    
     /**
      * get title
      *
@@ -49,4 +58,12 @@ interface CategoryInterface {
      * @return date
      */
     public function getCreateAt($arr);
+
+    /**
+     * get update at time
+     *
+     * @param array $arr
+     * @return date
+     */
+    public function getUpdateAt($arr);
 }

@@ -15,7 +15,7 @@ class App {
         $fileName = $urlProcess[count($urlProcess) - 1];
         $viewPath = VIEW_PATH;
         if (count($urlProcess) === 1 && $urlProcess[0] === ROOT_FOLDER) {
-            return SITE_URL . '/page/Index.php';
+            return FRONTEND_PATH . '/page/Index.php';
         } else {
             //remove first element and second element in urlProcess
             array_shift($urlProcess);
@@ -23,6 +23,9 @@ class App {
         
         //add admin or frontend for array
         if ($urlProcess[0] == 'admin') {
+            if (count($urlProcess) === 1) {
+                return ADMIN_PATH . '/page/Index.php';
+            }
             array_shift($urlProcess);
             array_unshift($urlProcess,'Admin');
         } else {
@@ -30,21 +33,31 @@ class App {
         }
 
         // check url has must be blog
-        if ($urlProcess > 3) {
-            if ($urlProcess[count($urlProcess - 2)] === 'post' ||
-                $urlProcess[count($urlProcess - 2)] === 'category')
+        if (count($urlProcess) >= 3) {
+            if ($urlProcess[count($urlProcess) - 2] === 'post' ||
+                $urlProcess[count($urlProcess) - 2] === 'category')
             {
                 //add blog folder for array
-                array_splice($urlProcess, count($urlProcess - 2), 'blog',count($urlProcess - 3));
+                array_splice($urlProcess, count($urlProcess) - 2, 0, 'blog');
 
-                //remove last element of array
-                unset($urlProcess[count($urlProcess - 1)]);
             } else {
-                array_splice($urlProcess, 0, 'page', 1);
+                array_splice($urlProcess, 0, 0, 'page');
+            }
+        } else if (count($urlProcess) >= 2) {
+            // check url has must be blog
+            if ($urlProcess[count($urlProcess) - 1] === 'posts' ||
+                $urlProcess[count($urlProcess) - 1] === 'categories')
+            {
+                //add blog folder for array
+                array_splice($urlProcess, count($urlProcess) - 3, 0, 'blog');
+
+            } else {
+                array_splice($urlProcess, 0, 0, 'page');
             }
         }
-        $notfoundPage = SITE_URL . '/page/404.php';
-        $filePath = implode('/',$urlProcess) . '.php';
+
+        $notfoundPage = FRONTEND_PATH . '/page/404.php';
+        $filePath = VIEW_PATH . '/' . implode('/',$urlProcess) . '.php';
         $viewPage = file_exists($filePath) ? $filePath : $notfoundPage;
         return $viewPage;
     }
@@ -76,6 +89,9 @@ class App {
         
         //add admin or frontend for array
         if ($urlProcess[0] == 'admin') {
+            if (count($urlProcess) === 1) {
+                return CONTROLLER_PATH . '/Admin/Index.php';
+            }
             array_shift($urlProcess);
             array_unshift($urlProcess,'Admin');
         } else {
@@ -83,30 +99,52 @@ class App {
         }
 
         // check url has must be blog
-        if (count($urlProcess) > 3) {
-            if ($urlProcess[count($urlProcess - 2)] === 'post' ||
-                $urlProcess[count($urlProcess - 2)] === 'category')
+        if (count($urlProcess) >= 3) {
+            if ($urlProcess[count($urlProcess) - 2] === 'post' ||
+                $urlProcess[count($urlProcess) - 2] === 'category')
             {
                 //add blog folder for array
-                array_splice($urlProcess, count($urlProcess - 2), 'Blog',count($urlProcess - 3));
+                array_splice($urlProcess, count($urlProcess) - 2, 0, 'Blog');
 
-                //remove last element of array
-                unset($urlProcess[count($urlProcess - 1)]);
             } else {
-                array_splice($urlProcess, 0, 'Page', 1);
+                array_splice($urlProcess, 0, 0, 'Page');
+            }
+        } else if (count($urlProcess) >= 2) {
+            // check url has must be blog
+            if ($urlProcess[count($urlProcess) - 1] === 'posts' ||
+                $urlProcess[count($urlProcess) - 1] === 'categories')
+            {
+                //add blog folder for array
+                array_splice($urlProcess, count($urlProcess) - 3, 0, 'Blog');
+
+            } else {
+                array_splice($urlProcess, 0, 0, 'Page');
             }
         }
 
+        $path = []; 
         //convert first letter of string to uppercase
-        $fileName = ucfirst($urlProcess[count($urlProcess) - 1]);
-
-        //remove last element of array
-        array_pop($urlProcess);
+        foreach ($urlProcess as $item) {
+            $path[] = ucfirst($item);
+        }
 
         //$notfoundPage = SITE_URL . 'page/404.php';
-        $filePath = implode('/',$urlProcess) . $fileName '.php';
+        $filePath = CONTROLLER_PATH . '/' . implode('/',$path) . '.php';
+        $apifile =  'Api/' . $fileName . 'Interface.php';
         
-        return $filePath;
+        if ($path[count($path) - 1] === 'Posts') {
+            $apifile =  'Api/PostInterface.php';
+        } else if ($path[count($path) - 1] === 'Categories') {
+            $apifile =  'Api/CategoryInterface.php';
+        }
+
+        if (file_exists($apifile)) {
+            require_once $apifile;
+        }
+
+        if (file_exists($filePath)) {
+            require_once $filePath;
+        }
     }
 
     /**
@@ -127,10 +165,10 @@ class App {
      * @param string $model
      * @return Class
      */
-    public function Model($model)
+    public function Model(string $namespace, string $model)
     {
-        require_once MODEL_PATH . $model . '.php';
-        return new Model\$model;
+        require_once MODEL_PATH. '/' . $model . '.php';
+        return new $namespace;
     }
 
     /**

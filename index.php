@@ -10,8 +10,8 @@ require_once 'Core/App.php';
 
 $app = new Core\App();
 
-require_once $app->Controller();
+$app->Controller();
 
-require_once $MODEL_PATH . '/Database.php';
+require_once MODEL_PATH . '/Database.php';
 
 $app->ViewFile();

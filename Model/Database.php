@@ -1,4 +1,5 @@
 <?php
+
 namespace Model;
 
 class Database {
@@ -10,10 +11,6 @@ class Database {
 
     public function __construct()
     {
-        $this->db_name = DB_NAME;
-        $this->db_host = DB_HOST;
-        $this->db_user = DB_USER;
-        $this->db_pass = DB_PASS;
         $this->CreatePostsTable();
         $this->CreateCategoriesTable();
         $this->CreateCategoryPostsTable();
@@ -25,8 +22,9 @@ class Database {
      */
     public function ConnectDB()
     {
+
         // Create connection
-        $conn = new mysqli($this->db_host, $this->db_user, $this->db_pass, $this->db_name);
+        $conn = new \mysqli($this->db_host, $this->db_user, $this->db_pass, $this->db_name);
 
         // Check connection
         if (!$conn) {
@@ -50,14 +48,16 @@ class Database {
             title VARCHAR(100) NOT NULL,
             content VARCHAR(2000),
             thumbnail_image VARCHAR(100),
-            url_key VARCHAR(100) UNSIGNED,
+            url_key VARCHAR(100),
             post_status SMALLINT(1) DEFAULT "1",
             create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            update_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (entity_id),
+            update_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )';
+
         if (!$resultSelect) {
-            $conn->query($sqlCreate);
+            if ($conn->query($sqlCreate) === FALSE) {
+                echo "Error creating table: " . $conn->error;
+              }
         }
     }
 
@@ -75,11 +75,10 @@ class Database {
             title VARCHAR(100) NOT NULL,
             content VARCHAR(2000),
             thumbnail_image VARCHAR(100),
-            url_key VARCHAR(100) UNSIGNED,
+            url_key VARCHAR(100),
             category_status SMALLINT(1) DEFAULT "1",
             create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            update_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (entity_id),
+            update_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )';
         if (!$resultSelect) {
             $conn->query($sqlCreate);
@@ -97,14 +96,15 @@ class Database {
         $resultSelect = $conn->query($sqlSelect);
         $sqlCreate = 'CREATE TABLE category_posts (
             entity_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            category_id INT(6) NOT NULL,
-            post_id INT(6) NOT NULL,
-            PRIMARY KEY (entity_id),
-            FOREIGN KEY (category_id) REFERENCES categories(entity_id),
-            FOREIGN KEY (post_id) REFERENCES posts(entity_id)
+            category_id INT(6) UNSIGNED,
+            post_id INT(6) UNSIGNED,
+            FOREIGN KEY (category_id) REFERENCES categories(entity_id) ON DELETE CASCADE,
+            FOREIGN KEY (post_id) REFERENCES posts(entity_id) ON DELETE CASCADE
         )';
         if (!$resultSelect) {
-            $conn->query($sqlCreate);
+            if ($conn->query($sqlCreate) === FALSE) {
+                echo "Error creating table: " . $conn->error;
+              }
         }
     }
 }

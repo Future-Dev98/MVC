@@ -12,6 +12,14 @@ interface PostInterface {
     public function getPosts();
 
     /**
+     * get ID
+     *
+     * @param array $arr
+     * @return int
+     */
+    public function getID($arr);
+
+    /**
      * get title
      *
      * @param array $arr
@@ -58,4 +66,12 @@ interface PostInterface {
      * @return date
      */
     public function getCreateAt($arr);
+
+    /**
+     * get update at time
+     *
+     * @param array $arr
+     * @return date
+     */
+    public function getUpdateAt($arr);
 }
