@@ -5,6 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="<?= ROOT_URL ?>/assets/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?= ROOT_URL ?>/assets/css/admin.css" rel="stylesheet">
+	<script src="<?= ROOT_URL ?>/assets/js/jquery-migrate-3.4.0.min.js"></script>
+	<script src="<?= ROOT_URL ?>/assets/js/custom.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	<title>Dashboard</title>
 </head>

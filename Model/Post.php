@@ -72,6 +72,32 @@ class Post implements PostInterface {
     }
 
     /**
+     * Save post data
+     *
+     * @param string $title
+     * @param string $content
+     * @param string $thumbnail_image
+     * @param string $url_key
+     * @param int $post_status
+     * @return boolean
+     */
+    public function save($title, $content, $thumbnail_image, $url_key, $post_status)
+    {
+        $conn = $this->database->ConnectDB();
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "INSERT INTO posts (title, content, thumbnail_image, url_key, post_status)
+                VALUES ($title, $content, $thumbnail_image, $url_key, $post_status)";
+        
+        return $conn->query($sql);
+
+    }
+
+    /**
      * get ID
      *
      * @param array $arr

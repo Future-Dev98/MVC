@@ -107,7 +107,7 @@ class App {
                 array_splice($urlProcess, count($urlProcess) - 2, 0, 'Blog');
 
             } else {
-                array_splice($urlProcess, 0, 0, 'Page');
+                //array_splice($urlProcess, 0, 0, 'Page');
             }
         } else if (count($urlProcess) >= 2) {
             // check url has must be blog
@@ -118,7 +118,7 @@ class App {
                 array_splice($urlProcess, count($urlProcess) - 3, 0, 'Blog');
 
             } else {
-                array_splice($urlProcess, 0, 0, 'Page');
+                //array_splice($urlProcess, 0, 0, 'Page');
             }
         }
 
@@ -131,7 +131,6 @@ class App {
         //$notfoundPage = SITE_URL . 'page/404.php';
         $filePath = CONTROLLER_PATH . '/' . implode('/',$path) . '.php';
         $apifile =  'Api/' . $fileName . 'Interface.php';
-        
         if ($path[count($path) - 1] === 'Posts') {
             $apifile =  'Api/PostInterface.php';
         } else if ($path[count($path) - 1] === 'Categories') {

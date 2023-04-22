@@ -2,7 +2,7 @@
     <h3>New Post</h3>
     <button class="btn-save">Save</button>
 </div>
-<form action="" method="post">
+<form action="<?= ROOT_URL.'/admin/post/save' ?>" method="post" id="post-data" enctype="multipart/form-data">
     <div class="admin__field status">
         <label for="status">Status</label>
         <div class="control">
@@ -50,3 +50,43 @@
         </div>
     </div>
 </form>
+<script>
+    jQuery(document).ready(function($) {
+        var form = $('#post-data');
+        form.submit(function(e){
+            e.preventDefault();
+        })
+        $('.btn-save').click(function(){
+            var formdata = $('#post-data').serialize(),
+                url = form.attr('action');
+                $.ajax({
+                       url: url,
+                       type: 'post',
+                       dataType: 'html',
+                       data: formdata,
+                       success: function(response){
+                
+                       }
+                })
+        })
+
+        //Upload thumnbail image
+        $('#thumbnail_image').change(function() {
+            var formData = new FormData($('#post-data')[0]);
+                $.ajax({
+                       url: '<?= ROOT_URL ?>/admin/UploadFile',
+                       type: 'post',
+                       dataType: 'json',
+                       data: formData,
+                       processData: false,
+                       contentType: false,
+                       success: function(result){
+                        console.log(result);
+                       },
+                       error: function(result) {
+                        console.log(result);
+                       }
+                })
+        })
+    })
+</script>
